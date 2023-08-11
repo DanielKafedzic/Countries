@@ -9,6 +9,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.example.countries.api.NetworkClient
 import com.example.example.Country
+import android.content.Intent
 
 class MainActivity : AppCompatActivity() {
     private lateinit var listView: ListView
@@ -32,6 +33,14 @@ class MainActivity : AppCompatActivity() {
                     val countryNames = countries.map { it.name?.common }
                     val adapter = ArrayAdapter(this@MainActivity, android.R.layout.simple_list_item_1, countryNames)
                     listView.adapter = adapter
+
+                    listView.setOnItemClickListener { _, _, position, _ ->
+                        val selectedCountry = countries[position]
+                        val intent = Intent(this@MainActivity, CountryDetailActivity::class.java)
+                        intent.putExtra("selected_country", selectedCountry)
+                        startActivity(intent)
+                    }
+
                 }
             }
 
